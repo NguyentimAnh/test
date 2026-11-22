@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Coming soon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@300..900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --font: 'Google Sans', 'Google Sans Flex', 'Product Sans', system-ui, sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; overflow: hidden; }
+
+  body {
+    font-family: var(--font);
+    background: #0b0620;
+    display: grid;
+    place-items: center;
+    position: relative;
+  }
+
+  /* ---------- Nền pixel art: biển sóng ---------- */
+  #sea {
+    position: fixed; inset: 0;
+    width: 100vw; height: 100vh;
+    image-rendering: crisp-edges;
+    image-rendering: pixelated;
+  }
+
+  /* ---------- Liquid glass ---------- */
+  .glass {
+    position: fixed;
+    background:
+      radial-gradient(120% 120% at 25% 15%, rgba(255,255,255,.55) 0%, rgba(255,255,255,.12) 35%, rgba(255,255,255,.04) 70%),
+      linear-gradient(135deg, rgba(255,255,255,.18), rgba(255,255,255,.03));
+    -webkit-backdrop-filter: blur(10px) saturate(190%) brightness(1.12);
+    backdrop-filter: blur(10px) saturate(190%) brightness(1.12);
+    /* Chromium: khúc xạ chất lỏng thật sự */
+    backdrop-filter: url(#liquid) blur(6px) saturate(200%) brightness(1.15);
+    border-radius: 50%;
+    box-shadow:
+      inset 0 0 0 1.5px rgba(255,255,255,.55),
+      inset 0 10px 22px rgba(255,255,255,.55),
+      inset 0 -14px 26px rgba(120,160,255,.35),
+      inset 10px 0 24px rgba(255,120,220,.25),
+      inset -10px 0 24px rgba(60,255,220,.25),
+      0 25px 50px rgba(10,0,40,.35);
+    will-change: transform;
+  }
+  .glass::before { /* điểm sáng phản chiếu */
+    content: ""; position: absolute;
+    top: 8%; left: 14%; width: 38%; height: 22%;
+    border-radius: 50%;
+    background: linear-gradient(180deg, rgba(255,255,255,.95), rgba(255,255,255,0));
+    filter: blur(2px);
+    transform: rotate(-25deg);
+  }
+  .glass::after { /* viền cầu vồng */
+    content: ""; position: absolute; inset: 0; border-radius: inherit;
+    background: conic-gradient(from 0deg, #ff5fd2, #5f8bff, #2affc6, #ffd23f, #ff5fd2);
+    -webkit-mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+    mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+    padding: 2px; opacity: .55;
+    animation: spin 8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .o1 { width: 190px; height: 190px; left: 9vw;  top: 14vh; animation: f1 9s ease-in-out infinite alternate; }
+  .o2 { width: 120px; height: 120px; right: 14vw; top: 12vh; animation: f2 7s ease-in-out infinite alternate; }
+  .o3 { width: 250px; height: 250px; right: 7vw;  bottom: 10vh; animation: f3 11s ease-in-out infinite alternate; }
+  .o4 { width: 90px;  height: 90px;  left: 18vw;  bottom: 16vh; animation: f4 6s ease-in-out infinite alternate; }
+  .o5 { width: 60px;  height: 60px;  left: 46vw;  top: 8vh; animation: f2 8s ease-in-out infinite alternate-reverse; }
+  .o6 { width: 150px; height: 150px; left: 55vw;  bottom: 6vh; animation: f1 10s ease-in-out infinite alternate-reverse; }
+  .o7 { width: 70px;  height: 70px;  left: 4vw;   top: 58vh; animation: f3 9s ease-in-out infinite alternate; }
+  .o8 { width: 100px; height: 100px; right: 30vw; top: 20vh; animation: f4 12s ease-in-out infinite alternate; }
+
+  @keyframes f1 { 0% { transform: translate(0,0) rotate(0) scale(1); border-radius: 50% 50% 50% 50%; }
+                  100% { transform: translate(40px,-60px) rotate(25deg) scale(1.08); border-radius: 58% 42% 55% 45% / 45% 55% 45% 55%; } }
+  @keyframes f2 { 0% { transform: translate(0,0) scale(1); }
+                  100% { transform: translate(-50px,45px) scale(1.15); border-radius: 44% 56% 48% 52% / 55% 45% 55% 45%; } }
+  @keyframes f3 { 0% { transform: translate(0,0) rotate(0); }
+                  100% { transform: translate(-60px,-40px) rotate(-30deg) scale(.92); border-radius: 55% 45% 42% 58% / 48% 56% 44% 52%; } }
+  @keyframes f4 { 0% { transform: translate(0,0) scale(1); }
+                  100% { transform: translate(35px,-50px) scale(1.2); } }
+
+  /* ---------- Thẻ kính chính ---------- */
+  .panel {
+    position: relative;
+    z-index: 5;
+    padding: clamp(36px, 7vw, 84px) clamp(44px, 10vw, 150px);
+    border-radius: 72px;
+    background:
+      linear-gradient(135deg, rgba(255,255,255,.32), rgba(255,255,255,.06) 45%, rgba(255,255,255,.2)),
+      radial-gradient(100% 140% at 20% 0%, rgba(255,255,255,.35), transparent 60%);
+    -webkit-backdrop-filter: blur(18px) saturate(190%) brightness(1.1);
+    backdrop-filter: blur(18px) saturate(190%) brightness(1.1);
+    backdrop-filter: url(#liquid-soft) blur(14px) saturate(200%) brightness(1.12);
+    box-shadow:
+      inset 0 0 0 1.5px rgba(255,255,255,.6),
+      inset 0 14px 30px rgba(255,255,255,.5),
+      inset 0 -20px 40px rgba(110,140,255,.3),
+      inset 18px 0 40px rgba(255,100,220,.22),
+      inset -18px 0 40px rgba(40,255,210,.22),
+      0 40px 90px rgba(8,0,40,.45),
+      0 0 120px rgba(160,110,255,.35);
+    overflow: hidden;
+    transform-style: preserve-3d;
+    transition: transform .15s ease-out;
+    animation: breathe 6s ease-in-out infinite alternate;
+  }
+  @keyframes breathe { to { border-radius: 90px 60px 85px 65px / 70px 85px 60px 80px; } }
+
+  .panel::before { /* ánh sáng quét ngang */
+    content: ""; position: absolute; inset: -50%;
+    background: linear-gradient(115deg, transparent 40%, rgba(255,255,255,.55) 50%, transparent 60%);
+    transform: translateX(-60%);
+    animation: sheen 5s ease-in-out infinite;
+    pointer-events: none;
+  }
+  @keyframes sheen { 0% { transform: translateX(-60%); } 60%,100% { transform: translateX(60%); } }
+
+  .panel::after { /* viền cầu vồng chạy quanh */
+    content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 2.5px;
+    background: conic-gradient(from var(--a, 0deg), #ff5fd2, #5f8bff, #2affc6, #ffd23f, #ff5fd2);
+    -webkit-mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+    mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+    opacity: .7;
+    animation: rot 6s linear infinite;
+    pointer-events: none;
+  }
+  @property --a { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
+  @keyframes rot { to { --a: 360deg; } }
+
+  h1 {
+    position: relative;
+    font-family: var(--font);
+    font-weight: 600;
+    font-size: clamp(2.6rem, 9vw, 7.5rem);
+    letter-spacing: -0.03em;
+    line-height: 1;
+    white-space: nowrap;
+    background: linear-gradient(100deg, #fff 0%, #ffe3fb 20%, #c9dcff 40%, #c7fff1 60%, #fff3c4 80%, #fff 100%);
+    background-size: 250% 100%;
+    -webkit-background-clip: text; background-clip: text;
+    color: transparent;
+    filter: drop-shadow(0 4px 18px rgba(80,20,160,.45));
+    animation: shine 6s linear infinite;
+  }
+  @keyframes shine { to { background-position: -250% 0; } }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Bộ lọc khúc xạ chất lỏng (SVG) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <filter id="liquid" x="-10%" y="-10%" width="120%" height="120%" color-interpolation-filters="sRGB">
+      <feTurbulence id="turb1" type="fractalNoise" baseFrequency="0.012 0.018" numOctaves="2" seed="4" result="noise"/>
+      <feGaussianBlur in="noise" stdDeviation="2" result="soft"/>
+      <feDisplacementMap in="SourceGraphic" in2="soft" scale="55" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <filter id="liquid-soft" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+      <feTurbulence id="turb2" type="fractalNoise" baseFrequency="0.006 0.01" numOctaves="2" seed="9" result="noise"/>
+      <feGaussianBlur in="noise" stdDeviation="3" result="soft"/>
+      <feDisplacementMap in="SourceGraphic" in2="soft" scale="40" xChannelSelector="R" yChannelSelector="B"/>
+    </filter>
+  </defs>
+</svg>
+
+<canvas id="sea"></canvas>
+
+<div class="glass o1"></div>
+<div class="glass o2"></div>
+<div class="glass o3"></div>
+<div class="glass o4"></div>
+<div class="glass o5"></div>
+<div class="glass o6"></div>
+<div class="glass o7"></div>
+<div class="glass o8"></div>
+
+<main class="panel" id="panel">
+  <h1>Coming soon</h1>
+</main>
+
+<script>
+  // Nghiêng thẻ kính theo chuột + trôi nhẹ các giọt kính
+  const panel = document.getElementById('panel');
+  const orbs = [...document.querySelectorAll('.glass')];
+  window.addEventListener('pointermove', e => {
+    const x = (e.clientX / innerWidth - .5);
+    const y = (e.clientY / innerHeight - .5);
+    panel.style.transform = `perspective(900px) rotateY(${x * 12}deg) rotateX(${-y * 12}deg)`;
+    orbs.forEach((o, i) => {
+      const d = (i % 4 + 1) * 6;
+      o.style.translate = `${x * d * -2}px ${y * d * -2}px`;
+    });
+  });
+
+  // Làm nhiễu sóng chuyển động -> hiệu ứng chất lỏng "sống"
+  const t1 = document.getElementById('turb1');
+  const t2 = document.getElementById('turb2');
+  let t = 0;
+  (function loop() {
+    t += 0.004;
+    t1.setAttribute('baseFrequency', `${0.012 + Math.sin(t) * 0.004} ${0.018 + Math.cos(t * 1.3) * 0.005}`);
+    t2.setAttribute('baseFrequency', `${0.006 + Math.cos(t * .8) * 0.002} ${0.01 + Math.sin(t) * 0.003}`);
+    requestAnimationFrame(loop);
+  })();
+</script>
+
+<script>
+  // ===== Biển pixel art (độ phân giải thấp, phóng to không làm mịn) =====
+  (function () {
+    const cv = document.getElementById('sea');
+    const ctx = cv.getContext('2d');
+    const W = 220;
+    let H, img, px;
+
+    function rgb(hex) {
+      const n = parseInt(hex.slice(1), 16);
+      return (0xff000000 | ((n & 255) << 16) | (n & 0xff00) | (n >> 16)) >>> 0;
+    }
+    const sky = ['#f7edd2', '#f2e2b8', '#ecd5a0', '#e5c68a'].map(rgb);
+    const sea = ['#a5c8d8', '#75a2c2', '#4a7ba6', '#2d5a8c', '#193f72', '#0d2851'].map(rgb);
+    const curl = ['#102f5e', '#1a4580', '#2a5f9e', '#3d79b2'].map(rgb);
+    const foam = rgb('#fcf7e8'), foam2 = rgb('#d6e6ec');
+    const sun = rgb('#fbf3dc');
+    const bayer = [0, 8, 2, 10, 12, 4, 14, 6, 3, 11, 1, 9, 15, 7, 13, 5].map(v => v / 16);
+
+    function hash(x, y, k) {
+      let n = (x * 374761393 + y * 668265263 + k * 1274126177) | 0;
+      n = Math.imul(n ^ (n >>> 13), 1274126177);
+      return ((n ^ (n >>> 16)) >>> 0) / 4294967295;
+    }
+    const clamp = (v, a, b) => v < a ? a : v > b ? b : v;
+    const smooth = (a, b, v) => { v = clamp((v - a) / (b - a), 0, 1); return v * v * (3 - 2 * v); };
+
+    function resize() {
+      H = Math.max(80, Math.round(W * innerHeight / innerWidth));
+      cv.width = W; cv.height = H;
+      img = ctx.createImageData(W, H);
+      px = new Uint32Array(img.data.buffer);
+    }
+    resize();
+    addEventListener('resize', resize);
+
+    function draw(t) {
+      const cx = W * 0.30, cy = H * 0.52;
+      const R0 = H * 0.46, r0 = H * 0.22;
+      const R = R0 + Math.sin(t * 1.1) * 2, r = r0 + Math.sin(t * 1.1 + 1) * 1.5;
+      const frame = Math.floor(t * 5);
+
+      for (let y = 0; y < H; y++) {
+        for (let x = 0; x < W; x++) {
+          const g = y / H;
+          let col = sky[clamp(Math.round(g * 3.4 + (bayer[(y & 3) * 4 + (x & 3)] - 0.5) * 0.9), 0, 3)];
+
+          // mặt trời
+          const sdx = x - W * 0.80, sdy = y - H * 0.24;
+          if (sdx * sdx + sdy * sdy < (H * 0.11) * (H * 0.11)) col = sun;
+
+          // đợt sóng cuộn lớn
+          const dx = x - cx, dy = y - cy;
+          const d = Math.hypot(dx, dy);
+          const ang = Math.atan2(dy, dx);
+          const taper = 1 - 0.32 * smooth(-1.3, -0.05, ang);
+          const Re = R * taper, re = r * (1 - 0.1 * smooth(-1.3, -0.05, ang));
+          const inArc = ang < -0.05 && ang > -3.0 && d < Re && d > re;
+          const inBody = dy >= 0 && dx < 0 && d < R;
+          if (inArc || inBody) {
+            const k = clamp((d - re) / (Re - re), 0, 1);
+            let ci = clamp(Math.floor(k * 4), 0, 3);
+            if (inBody && d < re) ci = 3;
+            col = curl[ci];
+            if (((d | 0) + ((ang * 14) | 0)) % 9 === 0 && k > 0.2) col = curl[Math.min(ci + 1, 3)];
+            if (inArc) {
+              if (d > Re - 2.5) col = foam;
+              else if (d > Re - 5 && hash(x, y, 7) < 0.55) col = foam2;
+            }
+          }
+          // bọt nước bắn ra từ đỉnh sóng
+          if (ang < -0.05 && ang > -2.2 && d > Re * 0.98 && d < Re + 9 && hash(x, y, frame) < 0.035 * (1 + smooth(-1.5, -0.1, ang) * 2)) col = foam;
+
+          // các lớp sóng biển phía trước
+          for (let i = 0; i < 6; i++) {
+            const base = H * (0.62 + i * 0.075);
+            const amp = 1.3 + i * 1.1;
+            const yy = base + Math.sin(x * (0.13 - i * 0.012) + t * (0.8 + i * 0.25) + i * 2) * amp
+                            + Math.sin(x * 0.33 + t * 1.4 + i) * amp * 0.4;
+            if (y > yy) {
+              col = sea[i];
+              if (y < yy + 1.6 && i > 0) col = sea[i - 1];
+              if (y < yy + 1 && i > 1 && hash(x, y, (frame >> 1) + i) < 0.35) col = foam2;
+            }
+          }
+          px[y * W + x] = col;
+        }
+      }
+      ctx.putImageData(img, 0, 0);
+    }
+
+    const t0 = performance.now();
+    const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    draw(0);
+    if (!still) setInterval(() => draw((performance.now() - t0) / 1000), 80); // ~12 fps cho đúng chất pixel
+  })();
+</script>
+</body>
+</html>
